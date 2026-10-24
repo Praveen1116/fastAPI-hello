@@ -1,0 +1,19 @@
+
+name: Deploy FastAPI to EC2
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Deploy application
+        run: |
+          cd /opt/fastapi-hello
+          git pull --ff-only origin main
+          docker build -t fastapi-hello .
+          docker rm -f fastapi-hello-container || true
+          docker run -d --restart unless-stopped --name fastapi-hello-container -p 8000:8000 fastapi-hello
