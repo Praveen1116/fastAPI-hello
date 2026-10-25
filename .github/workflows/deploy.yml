@@ -15,5 +15,4 @@ jobs:
           cd /opt/fastapi-hello
           git pull --ff-only origin main
           docker build -t fastapi-hello .
-          docker rm -f fastapi-hello-container || true
-          docker run -d --restart unless-stopped --name fastapi-hello-container -p 8000:8000 fastapi-hello
+          docker service update --force --image fastapi-hello:latest fastapi-hello
